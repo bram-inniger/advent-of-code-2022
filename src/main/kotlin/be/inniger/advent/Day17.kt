@@ -15,29 +15,36 @@ object Day17 {
                 else -> error("Invalid direction: $it")
             }
         }
-            .let { recSolve(it) }
+            .let { dropRocks(it) }
             .height()
 
-    private tailrec fun recSolve(
+    private tailrec fun dropRocks(
         jetPattern: List<Direction>,
         counter: Counter = Counter(),
         cave: Cave = Cave(),
         rock: Rock = Rock.new(counter, cave),
-    ): Cave =
-        if (counter.blocks == NR_ROCKS) cave
-        else {
-            // Move sideways
+        shouldMoveSideways: Boolean = true
+    ): Cave = when {
+        counter.blocks == NR_ROCKS -> cave
+        shouldMoveSideways -> {
             val direction = jetPattern[counter.turn % jetPattern.size]
-            val horizontalRock = if (rock.canMove(direction, cave)) rock.move(direction) else rock
+            val canMove = rock.canMove(direction, cave)
 
-            // Move downwards
-            val canMoveDown = horizontalRock.canMove(Direction.DOWN, cave)
-            val newCounter = if (canMoveDown) counter else counter.incBlocks()
-            val newCave = if (canMoveDown) cave else (cave + horizontalRock.rest())
-            val verticalRock = if (canMoveDown) horizontalRock.move(Direction.DOWN) else Rock.new(newCounter, newCave)
+            val newRock = if (canMove) rock.move(direction) else rock
 
-            recSolve(jetPattern, newCounter.incTurn(), newCave, verticalRock)
+            dropRocks(jetPattern, counter, cave, newRock, false)
         }
+        else -> {
+            val direction = Direction.DOWN
+            val canMove = rock.canMove(direction, cave)
+
+            val newCounter = if (canMove) counter else counter.incBlocks()
+            val newCave = if (canMove) cave else (cave + rock.rest())
+            val newRock = if (canMove) rock.move(direction) else Rock.new(newCounter, newCave)
+
+            dropRocks(jetPattern, newCounter.incTurn(), newCave, newRock, true)
+        }
+    }
 
     //    fun solveSecond(jetPattern: String) = 42
 
