@@ -33,13 +33,13 @@ class Day18Test {
         assertEquals(3_432, Day18.solveFirst(input))
     }
 
-//    @Test
-//    fun validateSecondSampleInputs() {
-//        assertEquals(0, Day18.solveSecond(sampleScan))
-//    }
-//
-//    @Test
-//    fun validateSecondSolution() {
-//        assertEquals(0, Day18.solveSecond(input))
-//    }
+    @Test
+    fun validateSecondSampleInputs() {
+        assertEquals(58, Day18.solveSecond(sampleScan))
+    }
+
+    @Test
+    fun validateSecondSolution() {
+        assertEquals(2_042, Day18.solveSecond(input))
+    }
 }
