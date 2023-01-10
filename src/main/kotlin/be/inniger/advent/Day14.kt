@@ -41,10 +41,10 @@ object Day14 {
         hasInfiniteBottom: Boolean
     ): Set<Coordinate> = when {
         hasInfiniteBottom && unit.y > maxDepth -> sand
-        sand.contains(source) -> sand
+        source in sand -> sand
         else -> {
             val canMove = { coordinate: Coordinate ->
-                !rocks.contains(coordinate) && !sand.contains(coordinate) && unit.y <= maxDepth
+                coordinate !in rocks && coordinate !in sand && unit.y <= maxDepth
             }
             val center = Coordinate(unit.x, unit.y + 1)
             val left = Coordinate(unit.x - 1, unit.y + 1)

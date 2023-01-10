@@ -21,7 +21,7 @@ object Day18 {
             }
 
         return allLava.sumOf { cube ->
-            CUBE_SIDES - neighbours(cube).count { neighbour -> allLava.contains(neighbour) }
+            CUBE_SIDES - neighbours(cube).count { neighbour -> neighbour in allLava }
         }
     }
 
@@ -42,12 +42,12 @@ object Day18 {
     ): Set<Cube> =
         when {
             toVisit.isEmpty() -> visited
-            visited.contains(toVisit.head()) -> floodFill(space, occupied, toVisit.tail(), visited)
+            toVisit.head() in visited -> floodFill(space, occupied, toVisit.tail(), visited)
             else -> {
                 val current = toVisit.head()
                 val reachableNeighbours = neighbours(current)
-                    .filter { !occupied.contains(it) }
-                    .filter { space.contains(it) }
+                    .filter { it !in occupied }
+                    .filter { it in space.cubes }
 
                 floodFill(space, occupied, toVisit.tail() + reachableNeighbours, visited + current)
             }
@@ -83,8 +83,5 @@ object Day18 {
                     (minZ..maxZ).map { z -> Cube(x, y, z) }
                 }
             }
-
-        fun contains(cube: Cube) =
-            cube.x in minX..maxX && cube.y in minY..maxY && cube.z in minZ..maxZ
     }
 }

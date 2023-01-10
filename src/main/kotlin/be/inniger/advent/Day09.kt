@@ -34,7 +34,7 @@ object Day09 {
         }
 
         fun moveToward(that: Position) = when {
-            (-1..1).contains(this.row - that.row) && (-1..1).contains(this.col - that.col) -> this
+            this.row - that.row in (-1..1) && this.col - that.col in (-1..1) -> this
             that.row == this.row && that.col > this.col -> Position(this.row, this.col + 1)
             that.row < this.row && that.col > this.col -> Position(this.row - 1, this.col + 1)
             that.row < this.row && that.col == this.col -> Position(this.row - 1, this.col)

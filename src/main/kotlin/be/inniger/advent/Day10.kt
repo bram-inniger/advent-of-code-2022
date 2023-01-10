@@ -13,7 +13,7 @@ object Day10 {
         val plan = derivePlan(program.map { Instruction.of(it) })
         val xOverTime = runPlan(plan)
 
-        return xOverTime.filter { interestingCycles.contains(it.key) }
+        return xOverTime.filter { it.key in interestingCycles }
             .map { it.key * it.value }
             .sum()
     }

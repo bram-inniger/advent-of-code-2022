@@ -26,14 +26,14 @@ object Day12 {
         distances: Map<Position, Int> = mapOf(grid.start to 0)
     ): Int =
         when {
-            distances.contains(grid.end) -> distances[grid.end]!!
+            grid.end in distances -> distances[grid.end]!!
             toVisit.isEmpty() -> Int.MAX_VALUE
             else -> {
                 val current = toVisit.head()
                 val distance = distances[current]!!
 
                 val unvisitedNeighbours = neighbours(grid, current)
-                    .filter { !distances.keys.contains(it) }
+                    .filter { it !in distances.keys }
 
                 val newToVisit = toVisit.tail() + unvisitedNeighbours
                 val newDistances = distances + unvisitedNeighbours.associateWith { distance + 1 }

@@ -34,6 +34,7 @@ object Day17 {
 
             dropRocks(jetPattern, counter, cave, newRock, false)
         }
+
         else -> {
             val direction = Direction.DOWN
             val canMove = rock.canMove(direction, cave)
@@ -90,7 +91,7 @@ object Day17 {
 
     private data class Cave(val stones: Set<Position> = setOf()) {
         operator fun plus(moreStones: Set<Position>) = Cave(stones + moreStones)
-        fun contains(position: Position) = stones.contains(position)
+        operator fun contains(position: Position) = position in stones
         fun height() = stones.maxOfOrNull { it.y } ?: 0
     }
 
@@ -98,81 +99,81 @@ object Day17 {
         fun canMove(direction: Direction, cave: Cave) = when (type) {
             RockType.HORIZONTAL -> when (direction) {
                 Direction.LEFT -> position.x > 1
-                        && !cave.contains(Position(position.x - 1, position.y + 0))
+                        && Position(position.x - 1, position.y + 0) !in cave
 
                 Direction.RIGHT -> position.x + 3 < WIDTH
-                        && !cave.contains(Position(position.x + 4, position.y + 0))
+                        && Position(position.x + 4, position.y + 0) !in cave
 
                 Direction.DOWN -> position.y > 1
-                        && !cave.contains(Position(position.x + 0, position.y - 1))
-                        && !cave.contains(Position(position.x + 1, position.y - 1))
-                        && !cave.contains(Position(position.x + 2, position.y - 1))
-                        && !cave.contains(Position(position.x + 3, position.y - 1))
+                        && Position(position.x + 0, position.y - 1) !in cave
+                        && Position(position.x + 1, position.y - 1) !in cave
+                        && Position(position.x + 2, position.y - 1) !in cave
+                        && Position(position.x + 3, position.y - 1) !in cave
             }
 
             RockType.PLUS -> when (direction) {
                 Direction.LEFT -> position.x > 1
-                        && !cave.contains(Position(position.x + 0, position.y + 0))
-                        && !cave.contains(Position(position.x - 1, position.y + 1))
-                        && !cave.contains(Position(position.x + 0, position.y + 2))
+                        && Position(position.x + 0, position.y + 0) !in cave
+                        && Position(position.x - 1, position.y + 1) !in cave
+                        && Position(position.x + 0, position.y + 2) !in cave
 
                 Direction.RIGHT -> position.x + 2 < WIDTH
-                        && !cave.contains(Position(position.x + 2, position.y + 0))
-                        && !cave.contains(Position(position.x + 3, position.y + 1))
-                        && !cave.contains(Position(position.x + 2, position.y + 2))
+                        && Position(position.x + 2, position.y + 0) !in cave
+                        && Position(position.x + 3, position.y + 1) !in cave
+                        && Position(position.x + 2, position.y + 2) !in cave
 
                 Direction.DOWN -> position.y > 1
-                        && !cave.contains(Position(position.x + 0, position.y + 0))
-                        && !cave.contains(Position(position.x + 1, position.y - 1))
-                        && !cave.contains(Position(position.x + 2, position.y + 0))
+                        && Position(position.x + 0, position.y + 0) !in cave
+                        && Position(position.x + 1, position.y - 1) !in cave
+                        && Position(position.x + 2, position.y + 0) !in cave
             }
 
             RockType.CORNER -> when (direction) {
                 Direction.LEFT -> position.x > 1
-                        && !cave.contains(Position(position.x - 1, position.y + 0))
-                        && !cave.contains(Position(position.x + 1, position.y + 1))
-                        && !cave.contains(Position(position.x + 1, position.y + 2))
+                        && Position(position.x - 1, position.y + 0) !in cave
+                        && Position(position.x + 1, position.y + 1) !in cave
+                        && Position(position.x + 1, position.y + 2) !in cave
 
                 Direction.RIGHT -> position.x + 2 < WIDTH
-                        && !cave.contains(Position(position.x + 3, position.y + 0))
-                        && !cave.contains(Position(position.x + 3, position.y + 1))
-                        && !cave.contains(Position(position.x + 3, position.y + 2))
+                        && Position(position.x + 3, position.y + 0) !in cave
+                        && Position(position.x + 3, position.y + 1) !in cave
+                        && Position(position.x + 3, position.y + 2) !in cave
 
                 Direction.DOWN -> position.y > 1
-                        && !cave.contains(Position(position.x + 0, position.y - 1))
-                        && !cave.contains(Position(position.x + 1, position.y - 1))
-                        && !cave.contains(Position(position.x + 2, position.y - 1))
+                        && Position(position.x + 0, position.y - 1) !in cave
+                        && Position(position.x + 1, position.y - 1) !in cave
+                        && Position(position.x + 2, position.y - 1) !in cave
             }
 
             RockType.VERTICAL -> when (direction) {
                 Direction.LEFT -> position.x > 1
-                        && !cave.contains(Position(position.x - 1, position.y + 0))
-                        && !cave.contains(Position(position.x - 1, position.y + 1))
-                        && !cave.contains(Position(position.x - 1, position.y + 2))
-                        && !cave.contains(Position(position.x - 1, position.y + 3))
+                        && Position(position.x - 1, position.y + 0) !in cave
+                        && Position(position.x - 1, position.y + 1) !in cave
+                        && Position(position.x - 1, position.y + 2) !in cave
+                        && Position(position.x - 1, position.y + 3) !in cave
 
                 Direction.RIGHT -> position.x + 0 < WIDTH
-                        && !cave.contains(Position(position.x + 1, position.y + 0))
-                        && !cave.contains(Position(position.x + 1, position.y + 1))
-                        && !cave.contains(Position(position.x + 1, position.y + 2))
-                        && !cave.contains(Position(position.x + 1, position.y + 3))
+                        && Position(position.x + 1, position.y + 0) !in cave
+                        && Position(position.x + 1, position.y + 1) !in cave
+                        && Position(position.x + 1, position.y + 2) !in cave
+                        && Position(position.x + 1, position.y + 3) !in cave
 
                 Direction.DOWN -> position.y > 1
-                        && !cave.contains(Position(position.x + 0, position.y - 1))
+                        && Position(position.x + 0, position.y - 1) !in cave
             }
 
             RockType.SQUARE -> when (direction) {
                 Direction.LEFT -> position.x > 1
-                        && !cave.contains(Position(position.x - 1, position.y + 0))
-                        && !cave.contains(Position(position.x - 1, position.y + 1))
+                        && Position(position.x - 1, position.y + 0) !in cave
+                        && Position(position.x - 1, position.y + 1) !in cave
 
                 Direction.RIGHT -> position.x + 1 < WIDTH
-                        && !cave.contains(Position(position.x + 2, position.y + 0))
-                        && !cave.contains(Position(position.x + 2, position.y + 1))
+                        && Position(position.x + 2, position.y + 0) !in cave
+                        && Position(position.x + 2, position.y + 1) !in cave
 
                 Direction.DOWN -> position.y > 1
-                        && !cave.contains(Position(position.x + 0, position.y - 1))
-                        && !cave.contains(Position(position.x + 1, position.y - 1))
+                        && Position(position.x + 0, position.y - 1) !in cave
+                        && Position(position.x + 1, position.y - 1) !in cave
             }
         }
 
